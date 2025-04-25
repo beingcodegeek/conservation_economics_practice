@@ -699,6 +699,7 @@ def show_week_questions(title, questions):
             user_answers[q["question"]] = st.radio(
                 f"Choose one option for: {q['question']}",
                 q["options"],
+                index=None,
                 key=f"{i}-{q['question']}"
             )
         submitted = st.form_submit_button("Submit Answers")
