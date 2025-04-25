@@ -682,15 +682,16 @@ all_questions = (
     questions_week_11 +
     questions_week_12
 )
-random.shuffle(all_questions)
-
 st.sidebar.header("Quiz Options")
 
+# Initialize session state variables
 if "practice_all" not in st.session_state:
     st.session_state.practice_all = False
 
+# Toggle between Practice All and Individual Weeks
 st.session_state.practice_all = st.sidebar.checkbox("Practice All Weeks", value=st.session_state.practice_all)
 
+# Week selection only when not practicing all
 if not st.session_state.practice_all:
     week_option = st.sidebar.selectbox("Select Week", [
         "Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6",
@@ -699,6 +700,9 @@ if not st.session_state.practice_all:
 else:
     week_option = None
 
+# ------------------------------
+# Quiz display function
+# ------------------------------
 def show_week_questions(title, questions):
     st.title(f"📝 {title}")
 
@@ -710,7 +714,7 @@ def show_week_questions(title, questions):
                 label="",
                 options=q["options"],
                 index=None,
-                key=f"{title}-{i}-{q['question']}"  # Unique per question
+                key=f"{title}-{i}-{q['question']}"
             )
 
         submitted = st.form_submit_button("Submit Answers")
@@ -734,10 +738,20 @@ def show_week_questions(title, questions):
                 score += 1
         st.success(f"🎉 Your Final Score: **{score} / {len(questions)}**")
 
-
+# ------------------------------
+# Main Logic
+# ------------------------------
 if st.session_state.practice_all:
-    show_week_questions("Practice All Weeks - Conservation Economics Quiz", all_questions)
+    if "shuffled_all_questions" not in st.session_state:
+        shuffled = all_questions.copy()
+        random.shuffle(shuffled)
+        st.session_state.shuffled_all_questions = shuffled
+
+    show_week_questions("Practice All Weeks - Conservation Economics Quiz", st.session_state.shuffled_all_questions)
 else:
+    # Clear shuffled questions when switching to week mode
+    st.session_state.pop("shuffled_all_questions", None)
+
     if week_option == "Week 1":
         show_week_questions("Week 1: Conservation Economics Quiz", questions_week_1)
     elif week_option == "Week 2":
@@ -762,3 +776,4 @@ else:
         show_week_questions("Week 11: Conservation Economics Quiz", questions_week_11)
     elif week_option == "Week 12":
         show_week_questions("Week 12: Conservation Economics Quiz", questions_week_12)
+
