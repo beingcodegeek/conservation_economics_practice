@@ -697,10 +697,11 @@ def show_week_questions(title, questions):
         for i, q in enumerate(questions):
             st.markdown(f"### {i + 1}. {q['question']}")
             user_answers[q["question"]] = st.radio(
-                q["options"],
-                index=None,
-                key=f"{i}-{q['question']}"
-            )
+                 f"Choose one option for: {q['question']}",
+                 q["options"],
+                 index=None,
+                 key=f"{i}-{q['question']}"
+             )
         submitted = st.form_submit_button("Submit Answers")
 
     if submitted:
