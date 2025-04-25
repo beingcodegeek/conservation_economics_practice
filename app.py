@@ -699,9 +699,6 @@ if not st.session_state.practice_all:
 else:
     week_option = None
 
-# ----------------------------
-# Quiz Function
-# ----------------------------
 def show_week_questions(title, questions):
     st.title(f"📝 {title}")
 
@@ -709,11 +706,11 @@ def show_week_questions(title, questions):
     with st.form("quiz_form"):
         for i, q in enumerate(questions):
             st.markdown(f"### {i + 1}. {q['question']}")
-            user_answers[i] = st.radio(
+            user_answers[q['question']] = st.radio(
                 label="",
                 options=q["options"],
                 index=None,
-                key=f"{i}-{q['question']}"
+                key=f"{title}-{i}-{q['question']}"  # Unique per question
             )
 
         submitted = st.form_submit_button("Submit Answers")
@@ -721,13 +718,13 @@ def show_week_questions(title, questions):
     if submitted:
         score = 0
         st.subheader("📊 Result")
-        for i, q in enumerate(questions):
-            selected = user_answers[i]
+        for q in questions:
+            selected = user_answers.get(q["question"])
             correct = q["answer"]
             is_correct = selected == correct
             st.markdown(
                 f"**Q:** {q['question']}<br>"
-                f"**Your answer:** {selected}<br>"
+                f"**Your answer:** {selected if selected else 'No answer'}<br>"
                 f"**Correct answer:** {correct}<br>"
                 f"{'✅ Correct' if is_correct else '❌ Incorrect'}",
                 unsafe_allow_html=True
@@ -737,9 +734,7 @@ def show_week_questions(title, questions):
                 score += 1
         st.success(f"🎉 Your Final Score: **{score} / {len(questions)}**")
 
-# ----------------------------
-# Main Logic
-# ----------------------------
+
 if st.session_state.practice_all:
     show_week_questions("Practice All Weeks - Conservation Economics Quiz", all_questions)
 else:
