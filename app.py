@@ -673,12 +673,10 @@ week_option = st.sidebar.selectbox("Choose a Week",
                                    ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8",
                                     "Week 9", "Week 10", "Week 11", "Week 12"])
 
-
 def show_week_questions(week, questions):
     st.title(f"📝 {week}: Conservation Economics Quiz")
 
     user_answers = {}
-
     with st.form("quiz_form"):
         for i, q in enumerate(questions):
             user_answers[q["question"]] = []
@@ -694,21 +692,14 @@ def show_week_questions(week, questions):
         for q in questions:
             selected_answers = [q["options"][i] for i, checked in enumerate(user_answers[q["question"]]) if checked]
             is_correct = selected_answers == [q["answer"]]
-
-            st.markdown(f"### {q['question']}")
-            for option in q["options"]:
-                if option == q["answer"]:
-                    st.markdown(f"- **{option}** (✅ Correct)" if option in selected_answers else f"- {option}")
-                else:
-                    st.markdown(f"- {option} (❌ Incorrect)" if option in selected_answers else f"- {option}")
-
+            st.markdown(
+                f"**Q:** {q['question']}<br>**Your answer:** {', '.join(selected_answers) if selected_answers else 'None'}<br>**Correct answer:** {q['answer']}<br>{'✅ Correct' if is_correct else '❌ Incorrect'}",
+                unsafe_allow_html=True)
             st.markdown("---")
-
             if is_correct:
                 score += 1
 
         st.success(f"🎉 Your Final Score: **{score} / {len(questions)}**")
-
 
 if week_option == "Week 1":
     show_week_questions("Week 1", questions_week_1)
@@ -733,4 +724,4 @@ elif week_option == "Week 10":
 elif week_option == "Week 11":
     show_week_questions("Week 11", questions_week_11)
 elif week_option == "Week 12":
-    show_week_questions("Week 12", questions_week_11)
+    show_week_questions("Week 12", questions_week_12)
