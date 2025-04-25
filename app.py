@@ -696,8 +696,8 @@ def show_week_questions(title, questions):
     with st.form("quiz_form"):
         for i, q in enumerate(questions):
             st.markdown(f"### {i + 1}. {q['question']}")
-            user_answers[q["question"]] = st.radio(
-                label="", 
+            user_answers[i] = st.radio(
+                label="",
                 options=q["options"],
                 index=None,
                 key=f"{i}-{q['question']}"
@@ -708,12 +708,15 @@ def show_week_questions(title, questions):
     if submitted:
         score = 0
         st.subheader("📊 Result")
-        for q in questions:
-            selected = user_answers[q["question"]]
+        for i, q in enumerate(questions):
+            selected = user_answers[i]
             correct = q["answer"]
             is_correct = selected == correct
             st.markdown(
-                f"**Q:** {q['question']}<br>**Your answer:** {selected}<br>**Correct answer:** {correct}<br>{'✅ Correct' if is_correct else '❌ Incorrect'}",
+                f"**Q:** {q['question']}<br>"
+                f"**Your answer:** {selected}<br>"
+                f"**Correct answer:** {correct}<br>"
+                f"{'✅ Correct' if is_correct else '❌ Incorrect'}",
                 unsafe_allow_html=True
             )
             st.markdown("---")
