@@ -668,60 +668,81 @@ questions_week_12 = [
         "answer": "regulating service"
     }
 ]
+all_questions = (
+    questions_week_1 +
+    questions_week_2 +
+    questions_week_3 +
+    questions_week_4 +
+    questions_week_5 +
+    questions_week_6 +
+    questions_week_7 +
+    questions_week_8 +
+    questions_week_9 +
+    questions_week_10 +
+    questions_week_11 +
+    questions_week_12
+)
+random.shuffle(all_questions)
 
 week_option = st.sidebar.selectbox("Choose a Week",
                                    ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8",
                                     "Week 9", "Week 10", "Week 11", "Week 12"])
+practice_all = st.sidebar.button("🧠 Practice All Weeks")
 
-def show_week_questions(week, questions):
-    st.title(f"📝 {week}: Conservation Economics Quiz")
+def show_week_questions(title, questions):
+    st.title(f"📝 {title}")
 
     user_answers = {}
     with st.form("quiz_form"):
         for i, q in enumerate(questions):
-            user_answers[q["question"]] = []
             st.markdown(f"### {i + 1}. {q['question']}")
-            for option in q["options"]:
-                user_answers[q["question"]].append(st.checkbox(option, key=f"{i}-{option}"))
-
+            user_answers[q["question"]] = st.radio(
+                f"Choose one option for: {q['question']}",
+                q["options"],
+                key=f"{i}-{q['question']}"
+            )
         submitted = st.form_submit_button("Submit Answers")
 
     if submitted:
         score = 0
         st.subheader("📊 Result")
         for q in questions:
-            selected_answers = [q["options"][i] for i, checked in enumerate(user_answers[q["question"]]) if checked]
-            is_correct = selected_answers == [q["answer"]]
+            selected = user_answers[q["question"]]
+            correct = q["answer"]
+            is_correct = selected == correct
             st.markdown(
-                f"**Q:** {q['question']}<br>**Your answer:** {', '.join(selected_answers) if selected_answers else 'None'}<br>**Correct answer:** {q['answer']}<br>{'✅ Correct' if is_correct else '❌ Incorrect'}",
-                unsafe_allow_html=True)
+                f"**Q:** {q['question']}<br>**Your answer:** {selected}<br>**Correct answer:** {correct}<br>{'✅ Correct' if is_correct else '❌ Incorrect'}",
+                unsafe_allow_html=True
+            )
             st.markdown("---")
             if is_correct:
                 score += 1
-
         st.success(f"🎉 Your Final Score: **{score} / {len(questions)}**")
 
-if week_option == "Week 1":
-    show_week_questions("Week 1", questions_week_1)
-elif week_option == "Week 2":
-    show_week_questions("Week 2", questions_week_2)
-elif week_option == "Week 3":
-    show_week_questions("Week 3", questions_week_3)
-elif week_option == "Week 4":
-    show_week_questions("Week 4", questions_week_4)
-elif week_option == "Week 5":
-    show_week_questions("Week 5", questions_week_5)
-elif week_option == "Week 6":
-    show_week_questions("Week 6", questions_week_6)
-elif week_option == "Week 7":
-    show_week_questions("Week 7", questions_week_7)
-elif week_option == "Week 8":
-    show_week_questions("Week 8", questions_week_8)
-elif week_option == "Week 9":
-    show_week_questions("Week 9", questions_week_9)
-elif week_option == "Week 10":
-    show_week_questions("Week 10", questions_week_10)
-elif week_option == "Week 11":
-    show_week_questions("Week 11", questions_week_11)
-elif week_option == "Week 12":
-    show_week_questions("Week 12", questions_week_12)
+if practice_all:
+    show_week_questions("Practice All Weeks - Conservation Economics Quiz", all_questions)
+else:
+    if week_option == "Week 1":
+        show_week_questions("Week 1: Conservation Economics Quiz", questions_week_1)
+    elif week_option == "Week 2":
+        show_week_questions("Week 2: Conservation Economics Quiz", questions_week_2)
+    elif week_option == "Week 3":
+        show_week_questions("Week 3: Conservation Economics Quiz", questions_week_3)
+    elif week_option == "Week 4":
+        show_week_questions("Week 4: Conservation Economics Quiz", questions_week_4)
+    elif week_option == "Week 5":
+        show_week_questions("Week 5: Conservation Economics Quiz", questions_week_5)
+    elif week_option == "Week 6":
+        show_week_questions("Week 6: Conservation Economics Quiz", questions_week_6)
+    elif week_option == "Week 7":
+        show_week_questions("Week 7: Conservation Economics Quiz", questions_week_7)
+    elif week_option == "Week 8":
+        show_week_questions("Week 8: Conservation Economics Quiz", questions_week_8)
+    elif week_option == "Week 9":
+        show_week_questions("Week 9: Conservation Economics Quiz", questions_week_9)
+    elif week_option == "Week 10":
+        show_week_questions("Week 10: Conservation Economics Quiz", questions_week_10)
+    elif week_option == "Week 11":
+        show_week_questions("Week 11: Conservation Economics Quiz", questions_week_11)
+    elif week_option == "Week 12":
+        show_week_questions("Week 12: Conservation Economics Quiz", questions_week_12)
