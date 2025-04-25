@@ -684,11 +684,24 @@ all_questions = (
 )
 random.shuffle(all_questions)
 
-week_option = st.sidebar.selectbox("Choose a Week",
-                                   ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8",
-                                    "Week 9", "Week 10", "Week 11", "Week 12"])
-practice_all = st.sidebar.button("🧠 Practice All Weeks")
+st.sidebar.header("Quiz Options")
 
+if "practice_all" not in st.session_state:
+    st.session_state.practice_all = False
+
+st.session_state.practice_all = st.sidebar.checkbox("Practice All Weeks", value=st.session_state.practice_all)
+
+if not st.session_state.practice_all:
+    week_option = st.sidebar.selectbox("Select Week", [
+        "Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6",
+        "Week 7", "Week 8", "Week 9", "Week 10", "Week 11", "Week 12"
+    ])
+else:
+    week_option = None
+
+# ----------------------------
+# Quiz Function
+# ----------------------------
 def show_week_questions(title, questions):
     st.title(f"📝 {title}")
 
@@ -724,7 +737,10 @@ def show_week_questions(title, questions):
                 score += 1
         st.success(f"🎉 Your Final Score: **{score} / {len(questions)}**")
 
-if practice_all:
+# ----------------------------
+# Main Logic
+# ----------------------------
+if st.session_state.practice_all:
     show_week_questions("Practice All Weeks - Conservation Economics Quiz", all_questions)
 else:
     if week_option == "Week 1":
