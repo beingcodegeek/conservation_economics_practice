@@ -405,7 +405,7 @@ questions_week_8 = [
     {
         "question": "For a positive production externality,",
         "options": ["SMB = PMB", "SMB = PMB − MD", "SMB = PMB + MB", "SMC = PMC / MD"],
-        "answer": "SMB = PMB + MB"
+        "answer": "SMB = PMB"
     },
     {
         "question": "\"The direct cost to producers of producing an additional unit of a good\" is",
