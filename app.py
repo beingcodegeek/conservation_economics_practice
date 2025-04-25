@@ -1,7 +1,6 @@
 import streamlit as st
 import random
 
-# --- All Questions and Answers ---
 questions_week_1 = [
     {
         "question": "In the word root for conservation, con stands for",
@@ -670,31 +669,25 @@ questions_week_12 = [
     }
 ]
 
-# --- Sidebar Selection ---
 week_option = st.sidebar.selectbox("Choose a Week",
                                    ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "Week 6", "Week 7", "Week 8",
                                     "Week 9", "Week 10", "Week 11", "Week 12"])
 
 
-# --- Function to Show Questions and Answers ---
 def show_week_questions(week, questions):
     st.title(f"📝 {week}: Conservation Economics Quiz")
 
-    # --- Store User Answers ---
     user_answers = {}
 
-    # --- Form for User Input ---
     with st.form("quiz_form"):
         for i, q in enumerate(questions):
             user_answers[q["question"]] = []
             st.markdown(f"### {i + 1}. {q['question']}")
             for option in q["options"]:
-                # Show options with checkboxes
                 user_answers[q["question"]].append(st.checkbox(option, key=f"{i}-{option}"))
 
         submitted = st.form_submit_button("Submit Answers")
 
-    # --- Evaluation ---
     if submitted:
         score = 0
         st.subheader("📊 Result")
@@ -702,29 +695,21 @@ def show_week_questions(week, questions):
             selected_answers = [q["options"][i] for i, checked in enumerate(user_answers[q["question"]]) if checked]
             is_correct = selected_answers == [q["answer"]]
 
-            # Show the result for each question, indicating correct or wrong answer
             st.markdown(f"### {q['question']}")
-
-            # Display options and mark correct/incorrect answers
             for option in q["options"]:
                 if option == q["answer"]:
-                    # Highlight the correct answer
                     st.markdown(f"- **{option}** (✅ Correct)" if option in selected_answers else f"- {option}")
                 else:
-                    # Highlight the wrong answer
                     st.markdown(f"- {option} (❌ Incorrect)" if option in selected_answers else f"- {option}")
 
             st.markdown("---")
 
-            # Increase score for correct answers
             if is_correct:
                 score += 1
 
-        # Display final score
         st.success(f"🎉 Your Final Score: **{score} / {len(questions)}**")
 
 
-# --- Show Questions based on Selected Week ---
 if week_option == "Week 1":
     show_week_questions("Week 1", questions_week_1)
 elif week_option == "Week 2":
