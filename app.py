@@ -529,7 +529,7 @@ questions_week_10 = [
     {
         "question": "\"government policy aimed at protecting people against the risk of adverse events\" is",
         "options": ["Social protection", "Social insurance", "Social security", "Socialism"],
-        "answer": "Social protection"
+        "answer": "Social insurance"
     },
     {
         "question": "\"a difference in wages that arises to offset the non-monetary characteristics of different jobs\" is known as",
