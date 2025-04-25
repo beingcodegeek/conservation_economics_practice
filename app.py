@@ -183,7 +183,7 @@ questions_week_4 = [
     {
         "question": "The movement of lions across the Gir landscape is an example of",
         "options": ["diffusion", "secular dispersal", "jump dispersal", "drifting"],
-        "answer": "secular dispersal"
+        "answer": "diffusion"
     },
     {
         "question": "\"The geographical distribution of a species will be controlled by that environmental factor for which the organism has the narrowest range of tolerance.\" This is the statement for",
